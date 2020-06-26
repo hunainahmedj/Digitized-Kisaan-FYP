@@ -1,0 +1,41 @@
+{% extends 'farm/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <div class="heading-primary mb-5">
+        <p class="heading-primary--text">Upload New Data</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="hidden" value="{{farm.id}}" name="farm_id">
+
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                {{ form.resource_GRE|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.resource_NIR|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                {{ form.resource_RED|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.resource_REG|as_crispy_field }}
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <button class="btn btn-success" type="submit">Save Farm</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock content %}

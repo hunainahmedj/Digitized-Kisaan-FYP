@@ -1,0 +1,621 @@
+{% extends 'farm/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% if farm in request.user.managed_farms.all %}
+
+<!-- Farm Details and available actions -->
+<div class="row">
+
+
+    <div class="col-md-8">
+        <div class="container">
+
+            <div class="heading-primary mb-5">
+                <p class="heading-primary--text">Farm Details</p>
+            </div>
+
+            <table class="table table-bordered my-5 table-sm justify-content-center text-center">
+                <thead class="bg-success">
+                <tr>
+                    <th>Name</th>
+                    <th>Lookup ID</th>
+                    <th>Area</th>
+                    <th>Country</th>
+                    <th>Created On</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{farm.farm_name}}</td>
+                    <td>{{farm.farm_lookup}}</td>
+                    <td>{{farm.farm_area}}</td>
+                    <td>{{farm.farm_country}}</td>
+                    <td>{{farm.farm_created_on}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="container">
+
+            <div class="heading-primary mb-5">
+                <p class="heading-primary--text">Actions Available</p>
+            </div>
+
+            <a href="{% url 'farm-update' farm.id %}" class="btn btn-success ml-5">Update Farm</a>
+            <a href="{% url 'data-upload' farm.id %}" class="btn btn-success">Upload Data</a>
+
+        </div>
+    </div>
+
+</div>
+<!-- End -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="border border-success mt-5 my-5">
+
+                <div class="bg-success text-white pl-3 pt-2 pb-1">
+                    <h4 class="d-inline-block">Weather Data</h4>
+                    <span class="fas fa-minus icon-float-r" data-toggle="collapse" data-target="#widget-3"></span>
+                </div>
+
+                <div id="widget-3" class="py-3 px-3 collapse show">
+                    <div>
+
+                        <div class="weather-container">
+                            <table class="table table-bordered table-sm justify-content-center text-center">
+                                <thead class="bg-success">
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Temperature (Kelvin)</th>
+                                    <th>Humidity (%)</th>
+                                    <th>Pressure (hPa)</th>
+                                    <th>UVI (UV)</th>
+                                </tr>
+                                </thead>
+                                <tbody class="weather-table-body">
+                                <!--<tr>-->
+                                <!--<td>1</td>-->
+                                <!--<td>61</td>-->
+                                <!--<td>1007</td>-->
+                                <!--<td>298.52</td>-->
+                                <!--</tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- Images and filters -->
+    <div class="col-md-8">
+        <div class="container">
+
+            <div class="heading-primary mb-3">
+                <p class="heading-primary--text">Data Uploaded</p>
+            </div>
+
+            <div class="data-description">
+
+                <dl class="data-description-box row">
+
+                    <dt class="col-sm-1">NDVI</dt>
+                    <dd class="col-sm-11">The normalized difference vegetation index (NDVI) is a simple graphical
+                        indicator that can be used to analyze remote sensing measurements, often from a space platform,
+                        assessing whether or not the target being observed contains live green vegetation.
+                    </dd>
+
+                    <dt class="col-sm-1">NDRE</dt>
+                    <dd class="col-sm-11">It is sensitive to chlorophyll content in leaves (how green a leaf appears),
+                        variability in leaf area, and soil background effects. High values of NDRE represent higher
+                        levels of leaf chlorophyll content than lower values.
+                    </dd>
+
+                    <dt class="col-sm-1">GRVI</dt>
+                    <dd class="col-sm-11">The GRVI is defined as the normalized ratio between the red and green channel
+                        of a RGB image or digital number triplet. However, the blue channel can be used as well using a
+                        weighting factor.
+                    </dd>
+
+                    <dt class="col-sm-1">GCI</dt>
+                    <dd class="col-sm-11">Is used to estimate the content of leaf chlorophyll in various species of
+                        plants. The chlorophyll content reflects the physiological state of vegetation; it decreases in
+                        stressed plants and can therefore be used as a measurement of plant health.
+                    </dd>
+
+                </dl>
+
+            </div>
+
+            <div class="data-controls row">
+
+                <div class="form-group col">
+                    <label for="data-controls-date">Date: </label>
+                    <select name="date" class="form-control form-control-sm" id="data-controls-date">\
+                        <option value="all">Till Today</option>
+                        {% for date in data %}
+                        <option value="{{date.uploaded_on}}">{{date.uploaded_on}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col">
+                    <label for="data-controls-date">Type: </label>
+                    <select name="type" class="form-control form-control-sm" id="data-controls-type">
+                        <option value="all">All</option>
+                        <option value="ndvi">NDVI</option>
+                        <option value="ndre">NDRE</option>
+                        <option value="grvi">GRVI</option>
+                        <option value="gci">GCI</option>
+                    </select>
+                </div>
+
+                <div class="form-group col">
+                    <label for="data-controls-date">Display: </label>
+                    <select name="type" class="form-control form-control-sm" id="data-controls-display">
+                        <option value="both">Both</option>
+                        <option value="original">Original</option>
+                        <option value="processed">Processed</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="container" id="active-filters">
+                <button id="data-control-resetBtn" class="btn btn-danger btn-sm">Reset <i
+                        class="fas fa-window-close"></i></button>
+            </div>
+
+            <div class="resource mt-3">
+
+                {% for res in data %}
+                <div class="resource-container" data-res="{{res.uploaded_on}}">
+
+                    <p>{{res.uploaded_on}}</p>
+
+                    <div class="resource-container-original" data-res="original">
+                        <img class="resource-img" src="{{res.resource_GRE.url}}" alt="GRE-Band">
+                        <img class="resource-img" src="{{res.resource_NIR.url}}" alt="NIR-Band">
+                        <img class="resource-img" src="{{res.resource_RED.url}}" alt="RED-Band">
+                        <img class="resource-img" src="{{res.resource_REG.url}}" alt="REG-Band">
+                    </div>
+
+                    <hr>
+
+                    {% for data in processed_data %}
+
+                    <div class="resource-container-processed" data-res="processed">
+                        {% if data.picture.id == res.id %}
+                        <div class="resource-img-overlay resource-img-ndvi" data-res="ndvi">
+                            <img class="resource-img" src="{{data.ndvi.url}}" alt="NDVI-Band">
+                            <p>NDVI-Band</p>
+                        </div>
+                        <div class="resource-img-overlay resource-img-ndre" data-res="ndre">
+                            <img class="resource-img" src="{{data.ndre.url}}" alt="NDRE-Band">
+                            <p>NDRE-Band</p>
+                        </div>
+                        <div class="resource-img-overlay resource-img-grvi" data-res="grvi">
+                            <img class="resource-img" src="{{data.grvi.url}}" alt="GRVI-Band">
+                            <p>GRVI-Band</p>
+                        </div>
+                        <div class="resource-img-overlay resource-img-gci" data-res="gci">
+                            <img class="resource-img" src="{{data.gci.url}}" alt="GCI-Band">
+                            <p>GCI-Band</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% endfor %}
+
+                    <div class="resource-container-links">
+                        <button class="btn btn-success btn-get-masks" data-id="{{res.id}}">Get Insights</button>
+                    </div>
+
+                    <hr>
+
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <!-- End -->
+
+    <div class="col-md-4">
+        <div class="container">
+
+            <div class="heading-primary mb-5">
+                <p class="heading-primary--text">Farm Location</p>
+            </div>
+
+            <div id="mapid" style="height: 420px"></div>
+
+            <div class="border border-success mt-5 my-5">
+                <div class="bg-success text-white pl-3 pt-2 pb-1">
+                    <h4 class="d-inline-block">Coordinate Form</h4>
+                    <span class="fas fa-minus icon-float-r" data-toggle="collapse" data-target="#widget-1"></span>
+                </div>
+                <div id="widget-1" class="py-3 px-3 collapse show">
+                    <div>
+
+                        <form id="coordinate-form">
+                            <div class="form-group">
+                                <label for="longitude">Longitude</label>
+                                <input type="text" name="longitude" class="form-control" id="longitude"
+                                       placeholder="Longitude">
+                            </div>
+                            <div class="form-group">
+                                <label for="latitude">Latitude</label>
+                                <input type="text" name="latitude" class="form-control" id="latitude"
+                                       placeholder="Latitude">
+                            </div>
+
+                            <input type="hidden" name="farm_id" value="{{farm.id}}">
+                            <button id="coordinate-btn" class="btn btn-success btn-block">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col">
+        <div class="border border-success mt-5 my-5">
+            <div class="bg-success text-white pl-3 pt-2 pb-1">
+                <h4 class="d-inline-block">Data Insights</h4>
+                <span class="fas fa-minus icon-float-r" data-toggle="collapse" data-target="#widget-2"></span>
+            </div>
+            <div id="widget-2" class="py-1 px-1 collapse show">
+                <div>
+
+                    <div class="data-insights">
+
+                        <div class="data-insights-box">
+                            <div class="data-insights-head">Green Thresh</div>
+                            <img class="data-description-img" id="green-thresh" src="" alt="">
+                            <div class="data-insights-des" id="green-thresh-desc"></div>
+                        </div>
+
+                        <div class="data-insights-box">
+                            <div class="data-insights-head">Red Thresh</div>
+                            <img class="data-description-img" id="red-thresh" src="" alt="">
+                            <div class="data-insights-des" id="red-thresh-desc"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- The Modal for Resource Images -->
+<div class="resource-modal">
+    <h1 id="caption"></h1>
+    <span class="close">&times;</span>
+    <img alt="" class="resource-modal-content">
+    <div id="description" class="resource-model-description"></div>
+</div>
+<!-- End -->
+
+<!-- Hidden Coordinate data -->
+{% for coordinate in coordinates %}
+<input class="coordinate-hidden" type="hidden" value="{{coordinate.longitude}},{{coordinate.latitude}}">
+{% endfor %}
+<!-- End -->
+
+
+{% else %}
+<p>You don't manage this farm</p>
+{% endif %}
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+    $(document).ready(function () {
+
+
+        const coordinateForm = $('#coordinate-form');
+
+        $('#coordinate-btn').on('click', function (event) {
+            $.ajax({
+
+                url: '/farm/add-coordinates',
+                data: coordinateForm.serialize(),
+                dataType: 'json'
+
+            }).done(function (data) {
+
+            })
+        });
+
+        initMaps();
+        getWeatherData();
+        dataControls();
+        enableModal();
+        processRequests();
+
+
+        // $('#data-controls-btn').on('click', function (event) {
+        //
+        //     const date = $('#data-controls-date').val();
+        //     const type = $('#data-controls-type').val();
+        //
+        //     $.ajax({
+        //         url: '/farm/data-control',
+        //         data: {date, type},
+        //         success: function (response) {
+        //             console.log(response);
+        //         }
+        //     })
+        // });
+
+    });
+
+    // Initializing leaflet map
+    const initMaps = () => {
+
+        let mymap = L.map('mapid').setView([24.853379, 67.021835], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            accessToken: 'pk.eyJ1IjoiaHVuYWluYWhtZWRqaWxhbmkiLCJhIjoiY2s0eXFpY3BmMDMxajNtbXN2MXh0MjR6aSJ9.j-3sAH0e9eAqZ1zOCo63kw\n'
+        }).addTo(mymap);
+
+        let coordinates = [];
+        $('.coordinate-hidden').map((i) => {
+            coordinate = $($('.coordinate-hidden')[i]).val().split(",")
+            coordinates.push(coordinate);
+        });
+        let polygon = L.polygon([coordinates], {color: 'green'}).addTo(mymap);
+        mymap.fitBounds(polygon.getBounds());
+    }
+
+    // Controlling data filters
+    const dataControls = () => {
+
+        let activeFilters = {};
+        let nonActiveFilter = {};
+        let filterTags;
+
+        $('#data-controls-date').on('change', function (event) {
+
+            let date = event.currentTarget.value;
+            let containers = $('.resource-container');
+
+            for (let i = 0; i < containers.length; i++) {
+                if ($(containers[i]).attr("data-res") !== date && !activeFilters.hasOwnProperty($(containers[i]).attr("data-res"))) {
+                    addNonActiveFilters($(containers[i]).attr("data-res"), $(containers[i]));
+                }
+                else if ($(containers[i]).attr("data-res") == date) {
+                    addActiveFilters($(containers[i]).attr("data-res"), $(containers[i]));
+                    appendFilters($(containers[i]).attr("data-res"), $(containers[i]));
+                }
+            }
+
+        });
+
+        $('#data-controls-type').on('change', function (event) {
+
+            let type = event.currentTarget.value;
+            let resourceNames = ["ndvi", "ndre", "grvi", "gci"];
+            let elements = '';
+            let resourceNameClass = '';
+
+            for (let i = 0; i < resourceNames.length; i++) {
+                resourceNameClass = ".resource-img-".concat(resourceNames[i]);
+                elements = $(resourceNameClass);
+                if (type !== resourceNames[i] && !activeFilters.hasOwnProperty(resourceNames[i])) {
+                    addNonActiveFilters(resourceNames[i], elements);
+                }
+                else if (type === resourceNames[i]) {
+                    addActiveFilters(resourceNames[i], elements);
+                    appendFilters(resourceNames[i], elements);
+                }
+            }
+        });
+
+        $('#data-controls-display').on('change', function (event) {
+
+            let display = event.currentTarget.value;
+            let displays = ['processed', 'original'];
+            let procContainers = $('.resource-container-processed');
+            let origContainers = $('.resource-container-original');
+
+            if (display === 'processed') {
+                appendFilters(display, procContainers);
+                addActiveFilters(display, procContainers);
+                if (!activeFilters.hasOwnProperty(displays[1])) {
+                    addNonActiveFilters(displays[1], origContainers);
+                }
+            }
+            else if (display === 'original') {
+                appendFilters(display, origContainers);
+                addActiveFilters(display, origContainers);
+                if (!activeFilters.hasOwnProperty(displays[0])) {
+                    addNonActiveFilters(displays[0], procContainers);
+                }
+            }
+            // else if (display === 'Both')
+        });
+
+        $('#data-control-resetBtn').on('click', function (event) {
+            for (let key in nonActiveFilter) {
+                nonActiveFilter[key].removeAttr("style");
+                delete nonActiveFilter[key];
+            }
+            for (let index = 0; index < filterTags.length; index++) {
+                console.log(index)
+                filterTags[index].parentNode.removeChild(filterTags[index]);
+            }
+        });
+
+        const appendFilters = (key, element) => {
+            let tag = document.createElement('button');
+            let icon = document.createElement('i');
+            icon.className = 'fas fa-window-close';
+            tag.className = 'btn btn-default btn-sm filter-tags';
+            tag.innerText = element.attr("data-res");
+            tag.appendChild(icon);
+            $('#active-filters').append(tag);
+            tag.addEventListener('click', function (event) {
+                let currentTarget = event.currentTarget;
+                activeFilters[$(currentTarget).text()].css("display", "none");
+                delete activeFilters[key];
+                currentTarget.parentNode.removeChild(currentTarget);
+                if ($.isEmptyObject(activeFilters)) {
+                    $('.resource').append("<p>Please select a filter or click the reset button above.</p>");
+                }
+            });
+            // $('#active-filters').append("<button class='btn btn-default btn-sm filter-tags'>"+element.attr("data-date")+"</button>")
+            filterTags = $('.filter-tags');
+        };
+
+        const addActiveFilters = (key, element) => {
+
+            activeFilters[key] = element;
+            activeFilters[key].removeAttr("style");
+
+        };
+
+        const addNonActiveFilters = (key, element) => {
+            nonActiveFilter[key] = element;
+            nonActiveFilter[key].css("display", "none");
+        };
+
+        // const removeFilter = (key) => {
+        //     delete activeFilters[key];
+        //
+        // }
+
+    }
+
+    // Modal Function
+    const enableModal = () => {
+
+        let modal = $('.resource-modal');
+        let modalCloseBtn = $('.close');
+
+        $('.resource-container').on('click', 'img', function (event) {
+
+            let modalImgContainer = $('.resource-modal-content');
+            let modalImgCaption = $('#caption');
+            let modalDescription = $('#description');
+            let currentImg = event.currentTarget;
+
+
+            modal.css("display", "block");
+            modalImgContainer.attr("src", currentImg.src);
+            modalImgCaption.text(currentImg.alt);
+
+            if (currentImg.alt === 'NDVI-Band') {
+                modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
+            }
+            else if (currentImg.alt === 'NDRE-Band') {
+                modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
+            }
+            else if (currentImg.alt === 'GRVI-Band') {
+                modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
+            }
+            else if (currentImg.alt === 'GCI-Band') {
+                modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
+            }
+
+        });
+
+        modalCloseBtn.on('click', function () {
+            modal.css("display", "none");
+        });
+
+    }
+
+    // Process Requests
+    const processRequests = () => {
+
+        $('.btn-get-masks').on('click', function (event) {
+
+            let currentTarget = event.currentTarget;
+            let dataId = $(currentTarget).attr('data-id');
+
+            let greenThreshImg = $('#green-thresh');
+            let redThreshImg = $('#red-thresh');
+
+            // console.log(type);
+
+            $.ajax({
+                url: '/farm/get-masks/',
+                method: 'GET',
+                data: {"data-id": dataId},
+                success: function (response) {
+
+                    console.log(response)
+
+                    document.getElementsByClassName('data-insights')[0].scrollIntoView();
+
+                    greenThreshImg.attr('src', response['green_thresh'].uri);
+                    $('#green-thresh-desc').text(response['green_thresh'].desc);
+                    redThreshImg.attr('src', response['red_thresh'].uri);
+                    $('#red-thresh-desc').text(response['red_thresh'].desc);
+
+                }
+            })
+        });
+
+    }
+
+    const getWeatherData = () => {
+
+        let container = $('.weather-table-body');
+        let coordinate = $($('.coordinate-hidden')[0]).val().split(",");
+        console.log(coordinate);
+
+        $.ajax({
+            url: 'https://api.openweathermap.org/data/2.5/onecall',
+            method: 'GET',
+            data: {
+                "appid": 'd70079bee798fc632e7c64bb1fe82902',
+                'lat': coordinate[0],
+                'lon': coordinate[1],
+                'exclude': 'hourly, minutely'
+            },
+            success: function (response) {
+                console.log(response['daily'])
+                response['daily'].map((item, index) => {
+                    container.append(
+                        '<tr>'
+                        + '<td>' + index + '</td><td>' + item['temp']['day'] + '</td><td>' + item['humidity'] + '</td><td>' + item['pressure'] + '</td><td>' + item['uvi'] + '</td>' +
+                        '</tr>'
+                    )
+                });
+            }
+        })
+    }
+
+</script>
+{% endblock js %}

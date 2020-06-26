@@ -1,0 +1,56 @@
+{% extends 'farm/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <div class="container">
+            <div class="heading-primary mb-5">
+                <p class="heading-primary--text">Farm List</p>
+            </div>
+
+            <table class="table table-striped table-bordered" id="farm-datatable">
+                <thead class="success-color">
+                <tr>
+                    <th>Name</th>
+                    <th>Area</th>
+                    <th>Country</th>
+                    <th>Created On</th>
+                    <th>Managed By</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for farm in farms %}
+                <tr>
+                    <td><a href="{% url "farm-detail" farm.id %}">{{farm.farm_name}}</a></td>
+                    <td>{{farm.farm_area}}</td>
+                    <td>{{farm.farm_country}}</td>
+                    <td>{{farm.farm_created_on}}</td>
+                    <td class="w-25">
+                        <select class="form-control w-75">
+                            {% for user in users %}
+                            {% if farm in user.managed_farms.all %}
+                            <option value="">{{user.get_full_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    $(document).ready(function (event) {
+        $('#farm-datatable').DataTable({});
+    })
+</script>
+
+{% endblock %}

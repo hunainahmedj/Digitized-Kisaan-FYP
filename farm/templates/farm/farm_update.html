@@ -1,0 +1,41 @@
+{% extends 'farm/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="container my-5">
+
+            <div class="heading-primary mb-5">
+                <p class="heading-primary--text">Update Farm</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.farm_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        {{ form.farm_area|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12 mb-0">
+                        {{ form.farm_country|as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Save Farm</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

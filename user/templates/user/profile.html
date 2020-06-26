@@ -1,0 +1,107 @@
+{% extends 'farm/base.html' %}
+
+{% block content %}
+
+<input id="user_id" type="hidden" value="{{ request.user.id }}">
+
+<div class="row">
+
+    <div class="col-md-8">
+
+        <div class="heading-primary mb-5">
+            <p class="heading-primary--text">User Profile</p>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="bg-success">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Farms Managed</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{request.user.first_name}} {{request.user.middle_name}} {{request.user.last_name}}</td>
+                <td>{{request.user.email}}</td>
+                <td>{{request.user.managed_farms.all.count}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <div class="heading-primary mb-5">
+            <p class="heading-primary--text">Farm Details</p>
+        </div>
+
+        <div id="mapid" style="height: 420px"></div>
+
+
+    </div>
+    <div class="col-md-4">
+
+        <div class="heading-primary mb-5">
+            <p class="heading-primary--text">Managed By You</p>
+        </div>
+
+        <ul class="list-group">
+            <li class="list-group-item bg-success">Managed Farms</li>
+            {% for farm in request.user.managed_farms.all %}
+            <li class="list-group-item"><a href="{% url "farm-detail" farm.id %}">{{farm.farm_name}}</a></li>
+            {% endfor %}
+        </ul>
+
+        <div class="div">
+            <a href="{% url "farm-search" %}" class="btn btn-success mt-3">Add Farm</a>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock content %}
+
+{% block js %}
+<script>
+
+    $(document).ready(function () {
+
+        const user_id = $('#user_id').val();
+
+        let mymap = L.map('mapid').setView([24.853379, 67.021835], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            accessToken: 'pk.eyJ1IjoiaHVuYWluYWhtZWRqaWxhbmkiLCJhIjoiY2s0eXFpY3BmMDMxajNtbXN2MXh0MjR6aSJ9.j-3sAH0e9eAqZ1zOCo63kw\n'
+        }).addTo(mymap);
+
+        $.ajax({
+
+            request: 'GET',
+            url: '/farm-coordinates/',
+            data: {user_id: user_id},
+            dataType: 'json'
+
+        }).done(function (data) {
+            data['farm_list'].map((i) => {
+                if (typeof data[i] !== "undefined") {
+                    let array = []
+                    data[i].map((j) => {
+                        coordinates = j.split(",")
+                        array.push(coordinates)
+                    })
+                    let polygon = L.polygon([array], {color: 'green'}).addTo(mymap);
+                    polygon.bindPopup(i);
+                }
+            })
+        })
+
+
+    });
+
+</script>
+{% endblock js %}
+
