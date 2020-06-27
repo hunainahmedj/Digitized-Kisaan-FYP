@@ -1,8 +1,4 @@
-{% extends 'farm/base.html' %}
-{% block content %}
-{% load crispy_forms_tags %}
-
-{% if farm in request.user.managed_farms.all %}
+{% extends 'farm/base.html' %} {% block content %} {% load crispy_forms_tags %} {% if farm in request.user.managed_farms.all %}
 
 <!-- Farm Details and available actions -->
 <div class="row">
@@ -17,22 +13,22 @@
 
             <table class="table table-bordered my-5 table-sm justify-content-center text-center">
                 <thead class="bg-success">
-                <tr>
-                    <th>Name</th>
-                    <th>Lookup ID</th>
-                    <th>Area</th>
-                    <th>Country</th>
-                    <th>Created On</th>
-                </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Lookup ID</th>
+                        <th>Area</th>
+                        <th>Country</th>
+                        <th>Created On</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>{{farm.farm_name}}</td>
-                    <td>{{farm.farm_lookup}}</td>
-                    <td>{{farm.farm_area}}</td>
-                    <td>{{farm.farm_country}}</td>
-                    <td>{{farm.farm_created_on}}</td>
-                </tr>
+                    <tr>
+                        <td>{{farm.farm_name}}</td>
+                        <td>{{farm.farm_lookup}}</td>
+                        <td>{{farm.farm_area}}</td>
+                        <td>{{farm.farm_country}}</td>
+                        <td>{{farm.farm_created_on}}</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -72,21 +68,21 @@
                         <div class="weather-container">
                             <table class="table table-bordered table-sm justify-content-center text-center">
                                 <thead class="bg-success">
-                                <tr>
-                                    <th>Day</th>
-                                    <th>Temperature (Kelvin)</th>
-                                    <th>Humidity (%)</th>
-                                    <th>Pressure (hPa)</th>
-                                    <th>UVI (UV)</th>
-                                </tr>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Temperature (Kelvin)</th>
+                                        <th>Humidity (%)</th>
+                                        <th>Pressure (hPa)</th>
+                                        <th>UVI (UV)</th>
+                                    </tr>
                                 </thead>
                                 <tbody class="weather-table-body">
-                                <!--<tr>-->
-                                <!--<td>1</td>-->
-                                <!--<td>61</td>-->
-                                <!--<td>1007</td>-->
-                                <!--<td>298.52</td>-->
-                                <!--</tr>-->
+                                    <!--<tr>-->
+                                    <!--<td>1</td>-->
+                                    <!--<td>61</td>-->
+                                    <!--<td>1007</td>-->
+                                    <!--<td>298.52</td>-->
+                                    <!--</tr>-->
                                 </tbody>
                             </table>
                         </div>
@@ -115,27 +111,21 @@
                 <dl class="data-description-box row">
 
                     <dt class="col-sm-1">NDVI</dt>
-                    <dd class="col-sm-11">The normalized difference vegetation index (NDVI) is a simple graphical
-                        indicator that can be used to analyze remote sensing measurements, often from a space platform,
-                        assessing whether or not the target being observed contains live green vegetation.
+                    <dd class="col-sm-11">The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live
+                        green vegetation.
                     </dd>
 
                     <dt class="col-sm-1">NDRE</dt>
-                    <dd class="col-sm-11">It is sensitive to chlorophyll content in leaves (how green a leaf appears),
-                        variability in leaf area, and soil background effects. High values of NDRE represent higher
-                        levels of leaf chlorophyll content than lower values.
+                    <dd class="col-sm-11">It is sensitive to chlorophyll content in leaves (how green a leaf appears), variability in leaf area, and soil background effects. High values of NDRE represent higher levels of leaf chlorophyll content than lower values.
                     </dd>
 
                     <dt class="col-sm-1">GRVI</dt>
-                    <dd class="col-sm-11">The GRVI is defined as the normalized ratio between the red and green channel
-                        of a RGB image or digital number triplet. However, the blue channel can be used as well using a
-                        weighting factor.
+                    <dd class="col-sm-11">The GRVI is defined as the normalized ratio between the red and green channel of a RGB image or digital number triplet. However, the blue channel can be used as well using a weighting factor.
                     </dd>
 
                     <dt class="col-sm-1">GCI</dt>
-                    <dd class="col-sm-11">Is used to estimate the content of leaf chlorophyll in various species of
-                        plants. The chlorophyll content reflects the physiological state of vegetation; it decreases in
-                        stressed plants and can therefore be used as a measurement of plant health.
+                    <dd class="col-sm-11">Is used to estimate the content of leaf chlorophyll in various species of plants. The chlorophyll content reflects the physiological state of vegetation; it decreases in stressed plants and can therefore be used as a measurement of
+                        plant health.
                     </dd>
 
                 </dl>
@@ -195,9 +185,7 @@
                         <img class="resource-img" src="{{res.resource_REG.url}}" alt="REG-Band">
                     </div>
 
-                    <hr>
-
-                    {% for data in processed_data %}
+                    <hr> {% for data in processed_data %}
 
                     <div class="resource-container-processed" data-res="processed">
                         {% if data.picture.id == res.id %}
@@ -256,13 +244,11 @@
                         <form id="coordinate-form">
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
-                                <input type="text" name="longitude" class="form-control" id="longitude"
-                                       placeholder="Longitude">
+                                <input type="text" name="longitude" class="form-control" id="longitude" placeholder="Longitude">
                             </div>
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" name="latitude" class="form-control" id="latitude"
-                                       placeholder="Latitude">
+                                <input type="text" name="latitude" class="form-control" id="latitude" placeholder="Latitude">
                             </div>
 
                             <input type="hidden" name="farm_id" value="{{farm.id}}">
@@ -322,33 +308,27 @@
 
 <!-- Hidden Coordinate data -->
 {% for coordinate in coordinates %}
-<input class="coordinate-hidden" type="hidden" value="{{coordinate.longitude}},{{coordinate.latitude}}">
-{% endfor %}
+<input class="coordinate-hidden" type="hidden" value="{{coordinate.longitude}},{{coordinate.latitude}}"> {% endfor %}
 <!-- End -->
 
 
 {% else %}
 <p>You don't manage this farm</p>
-{% endif %}
-
-{% endblock %}
-
-{% block js %}
+{% endif %} {% endblock %} {% block js %}
 <script>
-
-    $(document).ready(function () {
+    $(document).ready(function() {
 
 
         const coordinateForm = $('#coordinate-form');
 
-        $('#coordinate-btn').on('click', function (event) {
+        $('#coordinate-btn').on('click', function(event) {
             $.ajax({
 
                 url: '/farm/add-coordinates',
                 data: coordinateForm.serialize(),
                 dataType: 'json'
 
-            }).done(function (data) {
+            }).done(function(data) {
 
             })
         });
@@ -388,25 +368,21 @@
             accessToken: 'pk.eyJ1IjoiaHVuYWluYWhtZWRqaWxhbmkiLCJhIjoiY2s0eXFpY3BmMDMxajNtbXN2MXh0MjR6aSJ9.j-3sAH0e9eAqZ1zOCo63kw\n'
         }).addTo(mymap);
 
-        let coordinates = [];
-        if (coordinates.length > 0) {
+        try {
+            let coordinates = [];
             $('.coordinate-hidden').map((i) => {
                 coordinate = $($('.coordinate-hidden')[i]).val().split(",")
                 coordinates.push(coordinate);
             });
-
-            try {
-                let polygon = L.polygon([coordinates], {color: 'green'}).addTo(mymap);
-                mymap.fitBounds(polygon.getBounds());
-            }
-            catch (err) {
-                console.log(err);
-            }
+            let polygon = L.polygon([coordinates], {
+                color: 'green'
+            }).addTo(mymap);
+            mymap.fitBounds(polygon.getBounds());
+        } catch (err) {
+            console.log(err);
         }
 
-        
 
-        
     }
 
     // Controlling data filters
@@ -416,7 +392,7 @@
         let nonActiveFilter = {};
         let filterTags;
 
-        $('#data-controls-date').on('change', function (event) {
+        $('#data-controls-date').on('change', function(event) {
 
             let date = event.currentTarget.value;
             let containers = $('.resource-container');
@@ -424,8 +400,7 @@
             for (let i = 0; i < containers.length; i++) {
                 if ($(containers[i]).attr("data-res") !== date && !activeFilters.hasOwnProperty($(containers[i]).attr("data-res"))) {
                     addNonActiveFilters($(containers[i]).attr("data-res"), $(containers[i]));
-                }
-                else if ($(containers[i]).attr("data-res") == date) {
+                } else if ($(containers[i]).attr("data-res") == date) {
                     addActiveFilters($(containers[i]).attr("data-res"), $(containers[i]));
                     appendFilters($(containers[i]).attr("data-res"), $(containers[i]));
                 }
@@ -433,7 +408,7 @@
 
         });
 
-        $('#data-controls-type').on('change', function (event) {
+        $('#data-controls-type').on('change', function(event) {
 
             let type = event.currentTarget.value;
             let resourceNames = ["ndvi", "ndre", "grvi", "gci"];
@@ -445,15 +420,14 @@
                 elements = $(resourceNameClass);
                 if (type !== resourceNames[i] && !activeFilters.hasOwnProperty(resourceNames[i])) {
                     addNonActiveFilters(resourceNames[i], elements);
-                }
-                else if (type === resourceNames[i]) {
+                } else if (type === resourceNames[i]) {
                     addActiveFilters(resourceNames[i], elements);
                     appendFilters(resourceNames[i], elements);
                 }
             }
         });
 
-        $('#data-controls-display').on('change', function (event) {
+        $('#data-controls-display').on('change', function(event) {
 
             let display = event.currentTarget.value;
             let displays = ['processed', 'original'];
@@ -466,8 +440,7 @@
                 if (!activeFilters.hasOwnProperty(displays[1])) {
                     addNonActiveFilters(displays[1], origContainers);
                 }
-            }
-            else if (display === 'original') {
+            } else if (display === 'original') {
                 appendFilters(display, origContainers);
                 addActiveFilters(display, origContainers);
                 if (!activeFilters.hasOwnProperty(displays[0])) {
@@ -477,7 +450,7 @@
             // else if (display === 'Both')
         });
 
-        $('#data-control-resetBtn').on('click', function (event) {
+        $('#data-control-resetBtn').on('click', function(event) {
             for (let key in nonActiveFilter) {
                 nonActiveFilter[key].removeAttr("style");
                 delete nonActiveFilter[key];
@@ -496,7 +469,7 @@
             tag.innerText = element.attr("data-res");
             tag.appendChild(icon);
             $('#active-filters').append(tag);
-            tag.addEventListener('click', function (event) {
+            tag.addEventListener('click', function(event) {
                 let currentTarget = event.currentTarget;
                 activeFilters[$(currentTarget).text()].css("display", "none");
                 delete activeFilters[key];
@@ -534,7 +507,7 @@
         let modal = $('.resource-modal');
         let modalCloseBtn = $('.close');
 
-        $('.resource-container').on('click', 'img', function (event) {
+        $('.resource-container').on('click', 'img', function(event) {
 
             let modalImgContainer = $('.resource-modal-content');
             let modalImgCaption = $('#caption');
@@ -548,20 +521,17 @@
 
             if (currentImg.alt === 'NDVI-Band') {
                 modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
-            }
-            else if (currentImg.alt === 'NDRE-Band') {
+            } else if (currentImg.alt === 'NDRE-Band') {
                 modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
-            }
-            else if (currentImg.alt === 'GRVI-Band') {
+            } else if (currentImg.alt === 'GRVI-Band') {
                 modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
-            }
-            else if (currentImg.alt === 'GCI-Band') {
+            } else if (currentImg.alt === 'GCI-Band') {
                 modalDescription.text('Description: The normalized difference vegetation index (NDVI) is a simple graphical indicator that can be used to analyze remote sensing measurements, often from a space platform, assessing whether or not the target being observed contains live green vegetation.')
             }
 
         });
 
-        modalCloseBtn.on('click', function () {
+        modalCloseBtn.on('click', function() {
             modal.css("display", "none");
         });
 
@@ -570,7 +540,7 @@
     // Process Requests
     const processRequests = () => {
 
-        $('.btn-get-masks').on('click', function (event) {
+        $('.btn-get-masks').on('click', function(event) {
 
             let currentTarget = event.currentTarget;
             let dataId = $(currentTarget).attr('data-id');
@@ -583,8 +553,10 @@
             $.ajax({
                 url: '/farm/get-masks/',
                 method: 'GET',
-                data: {"data-id": dataId},
-                success: function (response) {
+                data: {
+                    "data-id": dataId
+                },
+                success: function(response) {
 
                     console.log(response)
 
@@ -608,11 +580,9 @@
         let coordinate = '';
         try {
             coordinate = $($('.coordinate-hidden')[0]).val().split(",");
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
-        }
-        finally {
+        } finally {
             if (coordinate !== '' || null) {
                 $.ajax({
                     url: 'https://api.openweathermap.org/data/2.5/onecall',
@@ -623,12 +593,12 @@
                         'lon': coordinate[1],
                         'exclude': 'hourly, minutely'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log(response['daily'])
                         response['daily'].map((item, index) => {
                             container.append(
-                                '<tr>'
-                                + '<td>' + index + '</td><td>' + item['temp']['day'] + '</td><td>' + item['humidity'] + '</td><td>' + item['pressure'] + '</td><td>' + item['uvi'] + '</td>' +
+                                '<tr>' +
+                                '<td>' + index + '</td><td>' + item['temp']['day'] + '</td><td>' + item['humidity'] + '</td><td>' + item['pressure'] + '</td><td>' + item['uvi'] + '</td>' +
                                 '</tr>'
                             )
                         });
@@ -637,6 +607,5 @@
             }
         }
     }
-
 </script>
 {% endblock js %}

@@ -1,10 +1,8 @@
-{% extends 'farm/base.html' %}
-
-{% block content %}
+{% extends 'farm/base.html' %} {% load static %} {% block content %}
 
 <header class="header">
     <!--<div class="header__logo-box">-->
-        <!--<img src="logo-white.png" alt="Logo" class="header__logo">-->
+    <!--<img src="logo-white.png" alt="Logo" class="header__logo">-->
     <!--</div>-->
 
     <div class="header__text-box">
@@ -19,5 +17,91 @@
     </div>
 
 </header>
+
+<main>
+    <section class="section-stories">
+
+        <div class="bg_video">
+            <video class="bg-video__content" autoplay muted loop>
+            <source src="{% static 'farm/video.mp4' %}" type="video/mp4">
+              <source src="{% static 'farm/video.webm' %}" type="video/webm">
+                Your Browser is not supported!
+          </video>
+        </div>
+
+        <div class="u-center-text u-margin-bottom-big">
+            <h2 class="heading-secondary">
+                We make people genuinely happy
+            </h2>
+        </div>
+
+        <div class="custom_row">
+            <div class="story">
+                <figure class="story__shape">
+                    <img src="{% static 'farm/nat-9.jpg' %}" alt="person on a tour" class="story__image">
+                    <figcaption class="story__caption">Hunain Ahmed</figcaption>
+                </figure>
+
+                <div class="story__text">
+                    <h3 class="heading-tertiary u-margin-bottom-small"> I had the best week ever with my family</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                        in reprehenderit in voluptate velit esse cillum dolore.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom_row">
+            <div class="story">
+                <figure class="story__shape">
+                    <img src="{% static 'farm/nat-8.jpg' %}" alt="person on a tour" class="story__image">
+                    <figcaption class="story__caption">Syeda Sania</figcaption>
+                </figure>
+
+                <div class="story__text">
+                    <h3 class="heading-tertiary u-margin-bottom-small">Wow my life is completely different now</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                        in reprehenderit in voluptate velit esse cillum dolore.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="u-center-text u-margin-top-huge">
+            <a href="#" class="btn-text">Read all stories &rarr;</a>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer__logo-box">
+        <img src="{% static 'farm/logo.png'%}" alt="Full Logo" class="footer__logo">
+    </div>
+
+    <div class="custom_row">
+
+        <div class="col-1-of-2">
+            <div class="footer__navigation">
+                <ul class="footer__list">
+                    <li class="footer__items"><a href="#" class="footer__link">Company</a></li>
+                    <li class="footer__items"><a href="#" class="footer__link">Contact us</a></li>
+                    <li class="footer__items"><a href="#" class="footer__link">Carrers</a></li>
+                    <li class="footer__items"><a href="#" class="footer__link">Privacy</a></li>
+                    <li class="footer__items"><a href="#" class="footer__link">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-1-of-2">
+            <p class="footer__copyright">
+                Built by <a href="" class="footer__link">Hunain Ahmed</a> for learning Sass <a href="#" class="footer__link">Advanced CSS and Sass</a>. Copyright &copy; by Hunain Ahmed. You are 100% allowed to use this webpage for both personal and commercial
+                use, but NOT to claim it as your own design. A credit to the orignal author is higly appreciated!
+            </p>
+        </div>
+
+    </div>
+</footer>
 
 {% endblock content %}
