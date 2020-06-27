@@ -1,6 +1,4 @@
-{% extends 'farm/base.html' %}
-
-{% block content %}
+{% extends 'farm/base.html' %} {% block content %}
 
 <input id="user_id" type="hidden" value="{{ request.user.id }}">
 
@@ -14,18 +12,18 @@
 
         <table class="table table-bordered">
             <thead class="bg-success">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Farms Managed</th>
-            </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Farms Managed</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>{{request.user.first_name}} {{request.user.middle_name}} {{request.user.last_name}}</td>
-                <td>{{request.user.email}}</td>
-                <td>{{request.user.managed_farms.all.count}}</td>
-            </tr>
+                <tr>
+                    <td>{{request.user.get_full_name}}</td>
+                    <td>{{request.user.email}}</td>
+                    <td>{{request.user.managed_farms.all.count}}</td>
+                </tr>
             </tbody>
         </table>
 
@@ -47,12 +45,12 @@
         <ul class="list-group">
             <li class="list-group-item bg-success">Managed Farms</li>
             {% for farm in request.user.managed_farms.all %}
-            <li class="list-group-item"><a href="{% url "farm-detail" farm.id %}">{{farm.farm_name}}</a></li>
+            <li class="list-group-item"><a href='{% url "farm-detail" farm.id %}'>{{farm.farm_name}}</a></li>
             {% endfor %}
         </ul>
 
         <div class="div">
-            <a href="{% url "farm-search" %}" class="btn btn-success mt-3">Add Farm</a>
+            <a href='{% url "farm-search" %}' class="btn btn-success mt-3">Add Farm</a>
         </div>
 
     </div>
@@ -60,12 +58,9 @@
 </div>
 
 
-{% endblock content %}
-
-{% block js %}
+{% endblock content %} {% block js %}
 <script>
-
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         const user_id = $('#user_id').val();
 
@@ -77,31 +72,28 @@
             id: 'mapbox/streets-v11',
             accessToken: 'pk.eyJ1IjoiaHVuYWluYWhtZWRqaWxhbmkiLCJhIjoiY2s0eXFpY3BmMDMxajNtbXN2MXh0MjR6aSJ9.j-3sAH0e9eAqZ1zOCo63kw\n'
         }).addTo(mymap);
-
         $.ajax({
-
             request: 'GET',
             url: '/farm-coordinates/',
-            data: {user_id: user_id},
+            data: {
+                user_id: user_id
+            },
             dataType: 'json'
-
-        }).done(function (data) {
+        }).done(function(data) {
             data['farm_list'].map((i) => {
                 if (typeof data[i] !== "undefined") {
-                    let array = []
+                    let array = [];
                     data[i].map((j) => {
-                        coordinates = j.split(",")
-                        array.push(coordinates)
-                    })
-                    let polygon = L.polygon([array], {color: 'green'}).addTo(mymap);
+                        coordinates = j.split(",");
+                        array.push(coordinates);
+                    });
+                    let polygon = L.polygon([array], {
+                        color: 'green'
+                    }).addTo(mymap);
                     polygon.bindPopup(i);
                 }
             })
         })
-
-
     });
-
 </script>
 {% endblock js %}
-

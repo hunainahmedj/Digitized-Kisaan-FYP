@@ -279,13 +279,33 @@
                         <div class="data-insights-box">
                             <div class="data-insights-head">Green Thresh</div>
                             <img class="data-description-img" id="green-thresh" src="" alt="">
-                            <div class="data-insights-des" id="green-thresh-desc"></div>
+                            <div class="data-insights-des-box">
+                                <p class="data-insights-des" id="green-thresh-desc"></p>
+                            </div>
                         </div>
 
                         <div class="data-insights-box">
                             <div class="data-insights-head">Red Thresh</div>
                             <img class="data-description-img" id="red-thresh" src="" alt="">
-                            <div class="data-insights-des" id="red-thresh-desc"></div>
+                            <div class="data-insights-des-box">
+                                <p class="data-insights-des" id="red-thresh-desc"></p>
+                            </div>
+                        </div>
+
+                        <div class="data-insights-box">
+                            <div class="data-insights-head">Chlorophyll Thresh</div>
+                            <img class="data-description-img" id="chlorophy-thresh" src="" alt="">
+                            <div class="data-insights-des-box">
+                                <p class="data-insights-des" id="chlorophy-desc"></p>
+                            </div>
+                        </div>
+
+                        <div class="data-insights-box">
+                            <div class="data-insights-head">Age Thresh</div>
+                            <img class="data-description-img" id="age-thresh" src="" alt="">
+                            <div class="data-insights-des-box">
+                                <p class="data-insights-des" id="age-thresh-desc"></p>
+                            </div>
                         </div>
 
                     </div>
@@ -547,8 +567,8 @@
 
             let greenThreshImg = $('#green-thresh');
             let redThreshImg = $('#red-thresh');
-
-            console.log("Requesting Masks");
+            let chlorophyllThreshImg = $('#chlorophy-thresh');
+            let ageThresh = $('#age-thresh');
 
             $.ajax({
                 url: '/farm/get-masks/',
@@ -558,14 +578,16 @@
                 },
                 success: function(response) {
 
-                    console.log(response)
-
                     document.getElementsByClassName('data-insights')[0].scrollIntoView();
 
                     greenThreshImg.attr('src', response['green_thresh'].uri);
                     $('#green-thresh-desc').text(response['green_thresh'].desc);
                     redThreshImg.attr('src', response['red_thresh'].uri);
                     $('#red-thresh-desc').text(response['red_thresh'].desc);
+                    chlorophyllThreshImg.attr('src', response['chlorophyll_thresh'].uri);
+                    $('#chlorophy-desc').text(response['chlorophyll_thresh'].desc);
+                    ageThresh.attr('src', response['age_thresh'].uri);
+                    $('#age-thresh-desc').text(response['age_thresh'].desc);
 
                 }
             })

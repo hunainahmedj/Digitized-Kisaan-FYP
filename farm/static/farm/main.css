@@ -785,11 +785,12 @@ table.table a {
 
 .data-insights-box {
     text-align: center;
+    width: 50%;
 }
 
 .data-description-img {
-    width: 350px;
-    height: 350px;
+    width: 320px;
+    height: 320px;
     margin-bottom: 1rem;
 }
 

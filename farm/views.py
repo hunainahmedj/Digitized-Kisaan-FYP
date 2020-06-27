@@ -143,7 +143,7 @@ def add_coordinates_view(request):
         longitude=request.GET.get('longitude'),
         latitude=request.GET.get('latitude')
     )
-    coordniates.save();
+    coordniates.save()
 
     return JsonResponse({"msg": "Coordinates Added"})
 
@@ -151,9 +151,9 @@ def add_coordinates_view(request):
 def get_mask_view(request):
 
     data = models.Picture.objects.get(id=request.GET.get('data-id'))
-    mask = Mask('farm/media/' + str(data.resource_NIR), 'farm/media/' + str(data.resource_RED))
+    mask = Mask('farm/media/' + str(data.resource_NIR), 'farm/media/' + str(data.resource_RED), 'farm/media/' + str(data.resource_REG), 'farm/media/' + str(data.resource_GRE))
 
-    response = {'green_thresh': mask.green_threshold(), 'red_thresh': mask.red_threshold()}
+    response = {'green_thresh': mask.green_threshold(), 'red_thresh': mask.red_threshold(), 'chlorophyll_thresh': mask.chlorophyll_threshold(), 'age_thresh': mask.age_thresh()}
 
     return JsonResponse(response)
 

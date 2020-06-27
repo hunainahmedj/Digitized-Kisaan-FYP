@@ -68,7 +68,7 @@ class Data:
 
     def calculate_grvi(self):
 
-        self.init_data();
+        self.init_data()
 
         grvi = np.where(
             (self.nir_float + self.gre_float) == 0.,
@@ -85,7 +85,7 @@ class Data:
 
     def calculate_gci(self):
 
-        self.init_data();
+        self.init_data()
 
         gci = ((self.nir_float / self.gre_float) - 1)
 
