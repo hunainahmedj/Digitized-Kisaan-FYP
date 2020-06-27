@@ -25,7 +25,7 @@ SECRET_KEY = '4t72%ddqu+4h4$2x9f*)_qx1rw*l72smqk3@+a!y1l=h-bn%z%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-15-206-252-5.ap-south-1.compute.amazonaws.com']
+ALLOWED_HOSTS = ['ec2-15-206-252-5.ap-south-1.compute.amazonaws.com', '127.0.0.1']
 
 
 # Application definition
@@ -140,4 +140,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'hunainahmed6@gmail.com'
-EMAIL_HOST_PASSWORD = 'SisterZitaYo1!'
+EMAIL_HOST_PASSWORD = 'SisterZitaYo1612273!'

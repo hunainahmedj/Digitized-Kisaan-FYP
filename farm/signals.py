@@ -12,6 +12,7 @@ from .models import Picture, Farm
 from processing.models import ProcessedData
 from processing import script
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 @receiver(post_save, sender=Farm)
 def farm_save_handler(sender, instance, created, **kwargs):
@@ -20,8 +21,12 @@ def farm_save_handler(sender, instance, created, **kwargs):
         subject = 'New Farm'
         message = f'{instance.farm_lookup}'
         recp = 'hunainahmed6@gmail.com'
-        send_mail(subject, message, EMAIL_HOST_USER, [recp], fail_silently=False)
-        instance.save()
+        try: 
+            send_mail(subject, message, EMAIL_HOST_USER, [recp], fail_silently=False)
+        except:
+            print("Mail not sent.")
+        finally:
+            instance.save()
 
 
 @receiver(post_save, sender=Picture)
@@ -36,6 +41,7 @@ def data_process_handler(sender, instance, created, **kwargs):
         for attr, value in instance.__dict__.items():
             if attr.startswith('resource'):
                 if value:
+
                     splited_array = str(value).split("/")
                     further_splited = splited_array[2].split(".")
 
@@ -47,12 +53,13 @@ def data_process_handler(sender, instance, created, **kwargs):
 
                     new_data[attr] = half_path
                     full_paths[attr] = full_path
-
-                    resource = Image.open(full_path)
+                    
+                    resource = Image.open(os.path.join(BASE_DIR, full_path))
+                    # resource = Image.open('media/arial_shots/REG/IMG_160808_092611_0000_REG_5Hn30y3.TIF')
                     resource.mode = 'I'
-                    resource.point(lambda i: i * (1. / 256)).convert('L').save(path+resource_type+"/"+file_name+'.jpeg')
+                    resource.point(lambda i: i * (1. / 256)).convert('L').save(os.path.join(BASE_DIR, path)+resource_type+"/"+file_name+'.jpeg')
 
-        # ***********************************
+        # # ***********************************s
 
         instance.resource_GRE = new_data['resource_GRE']
         instance.resource_NIR = new_data['resource_NIR']

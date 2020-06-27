@@ -82,7 +82,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def get_full_name(self):
-        return f'{self.first_name} {self.middle_name} {self.last_name}'
+        if self.middle_name != None:
+            return f'{self.first_name} {self.middle_name} {self.last_name}'
+        else:
+            return f'{self.first_name} {self.last_name}'
+        
 
     # @property
     # def staff(self):

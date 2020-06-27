@@ -1,17 +1,19 @@
+import os
 import numpy as np
 import rasterio as rio
 import random, string
 import matplotlib.pyplot as plt
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Data:
 
     def __init__(self, band_gre, band_nir, band_red, band_reg):
 
-        self.band_gre = rio.open(band_gre)
-        self.band_nir = rio.open(band_nir)
-        self.band_red = rio.open(band_red)
-        self.band_reg = rio.open(band_reg)
+        self.band_gre = rio.open(os.path.join(BASE_DIR, band_gre))
+        self.band_nir = rio.open(os.path.join(BASE_DIR, band_nir))
+        self.band_red = rio.open(os.path.join(BASE_DIR, band_red))
+        self.band_reg = rio.open(os.path.join(BASE_DIR, band_reg))
         self.gre_float = 0
         self.nir_float = 0
         self.red_float = 0
@@ -41,7 +43,7 @@ class Data:
 
         path = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         half_path = 'processed_shots/NDVI/' + path + '_ndvi.jpg'
-        full_path = 'farm/media/processed_shots/NDVI/' + path + '_ndvi.jpg'
+        full_path = os.path.join(BASE_DIR, 'farm/media/processed_shots/NDVI/' + path + '_ndvi.jpg')
 
         plt.imsave(full_path, ndvi, cmap='RdYlGn')
 
@@ -58,7 +60,7 @@ class Data:
 
         path = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         half_path = 'processed_shots/NDRE/' + path + '_ndre.jpg'
-        full_path = 'farm/media/processed_shots/NDRE/' + path + '_ndre.jpg'
+        full_path = os.path.join(BASE_DIR, 'farm/media/processed_shots/NDRE/' + path + '_ndre.jpg')
 
         plt.imsave(full_path, ndre, cmap='RdYlGn')
 
@@ -75,7 +77,7 @@ class Data:
 
         path = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         half_path = 'processed_shots/GRVI/' + path + '_grvi.jpg'
-        full_path = 'farm/media/processed_shots/GRVI/' + path + '_grvi.jpg'
+        full_path = os.path.join(BASE_DIR, 'farm/media/processed_shots/GRVI/' + path + '_grvi.jpg')
 
         plt.imsave(full_path, grvi, cmap='RdYlGn')
 
@@ -89,7 +91,7 @@ class Data:
 
         path = ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
         half_path = 'processed_shots/GCI/' + path + '_GCI.jpg'
-        full_path = 'farm/media/processed_shots/GCI/' + path + '_GCI.jpg'
+        full_path = os.path.join(BASE_DIR, 'farm/media/processed_shots/GCI/' + path + '_GCI.jpg')
 
         plt.imsave(full_path, gci, cmap='RdYlGn')
 

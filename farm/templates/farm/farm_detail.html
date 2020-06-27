@@ -389,12 +389,24 @@
         }).addTo(mymap);
 
         let coordinates = [];
-        $('.coordinate-hidden').map((i) => {
-            coordinate = $($('.coordinate-hidden')[i]).val().split(",")
-            coordinates.push(coordinate);
-        });
-        let polygon = L.polygon([coordinates], {color: 'green'}).addTo(mymap);
-        mymap.fitBounds(polygon.getBounds());
+        if (coordinates.length > 0) {
+            $('.coordinate-hidden').map((i) => {
+                coordinate = $($('.coordinate-hidden')[i]).val().split(",")
+                coordinates.push(coordinate);
+            });
+
+            try {
+                let polygon = L.polygon([coordinates], {color: 'green'}).addTo(mymap);
+                mymap.fitBounds(polygon.getBounds());
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+
+        
+
+        
     }
 
     // Controlling data filters
@@ -566,7 +578,7 @@
             let greenThreshImg = $('#green-thresh');
             let redThreshImg = $('#red-thresh');
 
-            // console.log(type);
+            console.log("Requesting Masks");
 
             $.ajax({
                 url: '/farm/get-masks/',
@@ -589,32 +601,41 @@
 
     }
 
+    // Get weather data from API
     const getWeatherData = () => {
 
         let container = $('.weather-table-body');
-        let coordinate = $($('.coordinate-hidden')[0]).val().split(",");
-        console.log(coordinate);
-
-        $.ajax({
-            url: 'https://api.openweathermap.org/data/2.5/onecall',
-            method: 'GET',
-            data: {
-                "appid": 'd70079bee798fc632e7c64bb1fe82902',
-                'lat': coordinate[0],
-                'lon': coordinate[1],
-                'exclude': 'hourly, minutely'
-            },
-            success: function (response) {
-                console.log(response['daily'])
-                response['daily'].map((item, index) => {
-                    container.append(
-                        '<tr>'
-                        + '<td>' + index + '</td><td>' + item['temp']['day'] + '</td><td>' + item['humidity'] + '</td><td>' + item['pressure'] + '</td><td>' + item['uvi'] + '</td>' +
-                        '</tr>'
-                    )
-                });
+        let coordinate = '';
+        try {
+            coordinate = $($('.coordinate-hidden')[0]).val().split(",");
+        }
+        catch (err) {
+            console.error(err);
+        }
+        finally {
+            if (coordinate !== '' || null) {
+                $.ajax({
+                    url: 'https://api.openweathermap.org/data/2.5/onecall',
+                    method: 'GET',
+                    data: {
+                        "appid": 'd70079bee798fc632e7c64bb1fe82902',
+                        'lat': coordinate[0],
+                        'lon': coordinate[1],
+                        'exclude': 'hourly, minutely'
+                    },
+                    success: function (response) {
+                        console.log(response['daily'])
+                        response['daily'].map((item, index) => {
+                            container.append(
+                                '<tr>'
+                                + '<td>' + index + '</td><td>' + item['temp']['day'] + '</td><td>' + item['humidity'] + '</td><td>' + item['pressure'] + '</td><td>' + item['uvi'] + '</td>' +
+                                '</tr>'
+                            )
+                        });
+                    }
+                })
             }
-        })
+        }
     }
 
 </script>

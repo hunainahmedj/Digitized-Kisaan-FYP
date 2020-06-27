@@ -1,16 +1,20 @@
+import os
 import cv2
 import copy
 import numpy as np
 import rasterio as rio
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import urllib, base64, io
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Mask:
 
     def __init__(self, band_nir, band_red):
-        self.band_nir = rio.open(band_nir)
-        self.band_red = rio.open(band_red)
+        self.band_nir = rio.open(os.path.join(BASE_DIR, band_nir))
+        self.band_red = rio.open(os.path.join(BASE_DIR, band_red))
         self.nir = self.band_nir.read(1).astype('float64')
         self.red = self.band_red.read(1).astype('float64')
         self.ndvi = np.divide((self.nir-self.red), (self.nir+self.red))

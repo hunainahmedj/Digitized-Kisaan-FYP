@@ -37,7 +37,7 @@
 
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-lg navbar-dark success-color">
-  <a class="navbar-brand" href="#">Digitized Kisaan</a>
+  <a class="navbar-brand" href="{% url 'home' %}">Digitized Kisaan</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
     aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -45,21 +45,22 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home
+        <a class="nav-link" href="{% url 'profile' %}">Dashboard
           <span class="sr-only">(current)</span>
         </a>
       </li>
+      {% if request.user.is_superuser %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'farm-list' %}">Farm List</a>
       </li>
+      {% endif %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">Farm
+          aria-haspopup="true" aria-expanded="false">Farm Management
         </a>
         <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
           <a class="dropdown-item" href="{% url 'farm-create' %}">Create Farm</a>
-          <a class="dropdown-item" href="{% url 'farm-search' %}">Search Farm</a>
-          <a class="dropdown-item" href="#">Upload Data</a>
+          <a class="dropdown-item" href="{% url 'farm-search' %}">Add Farm</a>
         </div>
       </li>
     </ul>

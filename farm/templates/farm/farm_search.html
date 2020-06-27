@@ -4,14 +4,22 @@
 
 <div class="container">
     <div class="heading-primary mb-5">
-        <p class="heading-primary--text">Search Farm</p>
+        <p class="heading-primary--text">Manage new farm</p>
     </div>
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
         <div class="form-group">
-            <button class="btn btn-success">Search Form</button>
+            <button class="btn btn-success">Add Farm</button>
         </div>
     </form>
 </div>

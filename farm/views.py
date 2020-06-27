@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic import (ListView, DetailView, CreateView, FormView, UpdateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from django.core.mail import send_mail
 from mysite.settings import EMAIL_HOST_USER
 
@@ -118,10 +119,11 @@ def farm_search_view(request):
             else:
                 context = {
                     'title': title,
-                    'form': form
+                    'form': form,
+                    'error': 'No farm with that ID'
                 }
-                # messages.warning(request, f'No such tickets exist')
-                return render(request, "farm/farm_search.html", context)
+                messages.warning(request, f'No such farm with the specified ID')
+                # return render(request, "farm/farm_search.html", context)
         else:
             form = forms.FarmSearchForm()
             context = {'title': 'Search Farm', 'form': form}
