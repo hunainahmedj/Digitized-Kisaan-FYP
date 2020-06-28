@@ -11,7 +11,7 @@
         {% csrf_token %} {{ form|crispy }}
         <div class="form-group">
             <button class="btn btn-success">Sign In</button>
-            <button class="btn btn-success">Forgot Password?</button>
+            <a href="{% url 'reset_password' %}" class="btn btn-success">Forgot Password?</a>
         </div>
     </form>
     {% endif %}

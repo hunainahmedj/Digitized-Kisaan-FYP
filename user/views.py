@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, FormView
 from django.http import JsonResponse
 from mysite.settings import EMAIL_HOST_USER
@@ -11,7 +12,7 @@ from collections import defaultdict
 from .forms import UserRegisterForm, ForgetPasswordForm
 from farm.models import Coordinates
 
-
+@login_required
 def profile(request):
 
     User = get_user_model().objects.get(id=request.user.id)

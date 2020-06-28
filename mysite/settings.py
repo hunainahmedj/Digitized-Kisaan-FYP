@@ -129,7 +129,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'farm/media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'user.User'
-LOGIN_REDIRECT_URL = '/farms'
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

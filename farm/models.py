@@ -18,7 +18,7 @@ class Farm(models.Model):
 
     farm_lookup = models.CharField(max_length=120, blank=True, null=True)
     farm_name = models.CharField(max_length=120, blank=False, null=False)
-    farm_area = models.BigIntegerField(blank=False, null=False)
+    farm_area = models.FloatField(blank=False, null=False)
     farm_country = models.ForeignKey(Country, on_delete=models.CASCADE)
     farm_created_on = models.DateTimeField(auto_now_add=True)
 
@@ -46,10 +46,10 @@ class Coordinates(models.Model):
 class Picture(models.Model):
 
     farm_id = models.ForeignKey(Farm, on_delete=models.CASCADE)
-    resource_GRE = models.ImageField(upload_to='arial_shots/GRE', blank=True)
-    resource_NIR = models.ImageField(upload_to='arial_shots/NIR', blank=True)
-    resource_RED = models.ImageField(upload_to='arial_shots/RED', blank=True)
-    resource_REG = models.ImageField(upload_to='arial_shots/REG', blank=True)
+    resource_GRE = models.ImageField(upload_to='arial_shots/GRE', blank=False)
+    resource_NIR = models.ImageField(upload_to='arial_shots/NIR', blank=False)
+    resource_RED = models.ImageField(upload_to='arial_shots/RED', blank=False)
+    resource_REG = models.ImageField(upload_to='arial_shots/REG', blank=False)
     uploaded_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

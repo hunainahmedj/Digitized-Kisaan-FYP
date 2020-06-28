@@ -11,7 +11,7 @@ class FarmForm(forms.ModelForm):
                 "placeholder": "Name of Farm"
             }
         ))
-    farm_area = forms.IntegerField(
+    farm_area = forms.FloatField(
         label='Area',
         widget=forms.TextInput(
             attrs={

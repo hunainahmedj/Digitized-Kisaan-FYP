@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic import (ListView, DetailView, CreateView, FormView, UpdateView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from mysite.settings import EMAIL_HOST_USER
@@ -32,8 +33,8 @@ class FarmListView(LoginRequiredMixin, ListView):
         context['users'] = get_user_model().objects.all()
         return context
 
-
 class FarmDetailView(DetailView):
+    login_url = '/login'
     model = models.Farm
     template_name = 'farm/farm_detail.html'
     context_object_name = "farm"
@@ -54,16 +55,14 @@ class FarmCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.FarmForm
 
 
-
 class FarmUpdateView(UpdateView):
-
+    login_url = '/login'
     model = models.Farm
     template_name = 'farm/farm_update.html'
     form_class = forms.FarmForm
 
-
 class PictureCreateView(CreateView):
-
+    login_url = '/login'
     model = models.Picture
     template_name = 'farm/farm_data_upload.html'
     form_class = forms.PictureForm
@@ -100,7 +99,7 @@ def data_fetch_view(request):
 #         form = forms.PictureForm()
 #     return render(request, 'farm/farm_data_upload.html', {'form': form, 'farm_id': 6})
 
-
+@login_required
 def farm_search_view(request):
 
     title = 'Search Farm'

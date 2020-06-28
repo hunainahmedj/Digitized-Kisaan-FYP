@@ -341,16 +341,21 @@
 
         const coordinateForm = $('#coordinate-form');
 
+
         $('#coordinate-btn').on('click', function(event) {
-            $.ajax({
+            event.preventDefault();
+            if (coordinateForm[0][0].value.length > 0) {
+                $.ajax({
 
-                url: '/farm/add-coordinates',
-                data: coordinateForm.serialize(),
-                dataType: 'json'
+                    url: '/farm/add-coordinates',
+                    data: coordinateForm.serialize(),
+                    dataType: 'json'
 
-            }).done(function(data) {
-
-            })
+                }).done(function(data) {
+                    console.log('Request Completed');
+                    location.reload();
+                })
+            }
         });
 
         initMaps();
